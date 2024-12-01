@@ -22,22 +22,36 @@
     <!-- Product List Section -->
     <section id="productListSection">
         <h2>Product List</h2>
+        <div>
+            <input id="search-bar" type="text" placeholder="Search by name...">
+            <select id="filter-category">
+                <option value="all">All Categories</option>
+                <option value="baby">Baby Scrunchie</option>
+                <option value="regular">Regular Scrunchie</option>
+                <option value="giant">Giant Scrunchie</option>
+            </select>
+            <select id="filter-price">
+                <option value="none">Sort by Price</option>
+                <option value="low-to-high">Lowest to Highest</option>
+                <option value="high-to-low">Highest to Lowest</option>
+            </select>
+        </div>        
         <table>
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Stock</th>
-            </tr>
-            <tr>
-                <td><img src="https://via.placeholder.com/50" alt="Scrunchie"></td>
-                <td>Scrunchie 1</td>
-                <td>$5.00</td>
-                <td>10</td>
-            </tr>
-            <!-- Add more rows for other products -->
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="product-list-body"></tbody>
         </table>
+        
     </section>
-
+    <script src="crud.js"></script>
+    
 </body>
 </html>

@@ -22,14 +22,20 @@
     <!-- Add Product Section -->
     <section id="addProductSection">
         <h2>Add New Product</h2>
-        <form action="#">
-            <input type="text" placeholder="Product Name">
-            <input type="number" placeholder="Price">
-            <input type="number" placeholder="Stock">
-            <input type="file" placeholder="Upload Image">
+        <form id="add-product-form">
+            <input id="product-name" type="text" placeholder="Product Name" required>
+            <select id="product-category" required>
+                <option value="baby">Baby Scrunchie</option>
+                <option value="regular">Regular Scrunchie</option>
+                <option value="giant">Giant Scrunchie</option>
+            </select>
+            <input id="product-price" type="number" placeholder="Price" required>
+            <input id="product-stock" type="number" placeholder="Stock" required>
+            <input id="product-image" type="file" placeholder="Image" required>
             <button type="submit">Add Product</button>
-        </form>
+        </form>                    
     </section>
-
+    <script src="crud.js"></script>
+    
 </body>
 </html>
