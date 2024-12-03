@@ -46,11 +46,10 @@ body {
     border-radius: 5px; 
     transition: background-color 0.3s; 
 } 
-
-/* Hover effect */     
-#navButtons a:hover { background-color: #b12252; /* Pink Hover Color */ 
+/* Hover effect */ 
+#navButtons a:hover { 
+    background-color: #b12252; /* Pink Hover Color */ 
 } 
-
 /* Active nav button */ 
 #navButtons a.active { 
     background-color: #b12252; /* Keep the pink color for the active button */ }
