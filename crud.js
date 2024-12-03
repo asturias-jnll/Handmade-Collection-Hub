@@ -156,3 +156,29 @@ if (document.getElementById("productListSection")) {
     fetchProducts();
     applyFilters(); // Initialize filteredProducts and render the list
 }
+
+// JavaScript to handle active nav button
+document.addEventListener('DOMContentLoaded', (event) => {
+    const navButtons = document.querySelectorAll('#navButtons .nav-button');
+
+    // Retrieve the active nav button from localStorage
+    const activeNavId = localStorage.getItem('activeNavId');
+    if (activeNavId) {
+        const activeNav = document.getElementById(activeNavId);
+        if (activeNav) {
+            activeNav.classList.add('active');
+        }
+    }
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove 'active' class from all buttons
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            // Add 'active' class to the clicked button
+            this.classList.add('active');
+
+            // Store the active button's ID in localStorage
+            localStorage.setItem('activeNavId', this.id);
+        });
+    });
+});
