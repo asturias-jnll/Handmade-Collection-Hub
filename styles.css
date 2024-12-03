@@ -1,193 +1,341 @@
-/* Base Styles */
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body and Main Layout */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f8f8f8;
+    background-color: #f9f9f9; /* Light gray background */
     color: #333;
-    padding: 0;
 }
 
-h1, h2, h3 {
-    font-family: 'Helvetica', sans-serif;
-    color: #4a4a4a;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
+/* Header with title and navigation */
 #header {
-    background: linear-gradient(45deg, #ff66b2, #9b4dca);
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000; /* Black background for header */
+    color: #b12252;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 #header h1 {
     font-size: 2rem;
-    margin-bottom: 10px;
+    letter-spacing: 1px;
+    margin: 0;
 }
 
 #navButtons {
-    margin-top: 10px;
+    display: flex;
+    gap: 15px;
 }
 
 #navButtons a {
     color: white;
-    margin: 0 15px;
     text-decoration: none;
+    font-size: 1rem;
     font-weight: bold;
-    padding: 12px 20px;
-    background-color: #ff3385;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 #navButtons a:hover {
-    background-color: #ff4d94;
-    transform: translateY(-2px);
+    background-color: #b12252; /* Pink Hover Color */
 }
 
-/* Section Styling */
-section {
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px;
+/* Home Section */
+#homeSection {
+    padding: 50px 10px;
+    background-color: #F9F9F9; /* Light background for home */
+    text-align: center;
+    background-image: url('/mnt/data/2.png');
+    background-size: cover;
+    background-position: center;
+    color: black; /* Changed from white to black for text color */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-/* Form Styles */
-form {
+#homeSection h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black; /* Ensure heading text is black */
+}
+
+#homeSection p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    color: black; /* Ensure paragraph text is black */
+}
+
+
+/* Dashboard Section */
+#dashboardSection {
+    padding: 100px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#dashboardSection h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #000000; /* Black header text */
+    font-weight: bold;
+}
+
+#dashboardSection ul {
+    list-style: none;
+    font-size: 1.2rem;
+}
+
+#dashboardSection li {
+    margin: 20px 0;
+}
+
+/* Product List Section */
+#productListSection {
+    padding: 30px 20px; /* Increase padding at the top for more space */
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Title */
+#productListSection h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #b12252;  /* Pink color for heading */
+    text-align: center;
+}
+
+
+/* Filters Section aligned to the upper-right corner */
+#productListSection .filters {
+    display: flex;
+    gap: 0px; /* Space between each filter */
+    position: absolute; /* Absolute positioning */
+    top: 20px; /* Adjusted to align below the title */
+    right: 20px; /* Distance from the right */
+    align-items: center; /* Align items horizontally */
+}
+
+/* Input and Select Fields in Filters */
+#productListSection input,
+#productListSection select {
+    padding: 7px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 4px solid #ddd;
+    width: 300px; /* Set a fixed width for the filter fields */
+}
+
+
+/* Product Table Container */
+#productListSection .table-container {
+    display: flex;
+    justify-content: center; /* Center the table horizontally */
+    margin-top: 20px; /* Space between filters and the table */
+    width: 100%; /* Ensure the container takes up the full width */
+}
+
+/* Product Table */
+#productListSection table {
+    width: 80%; /* Table takes 80% of the width */
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Soft shadow around the table */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table Headers and Cells */
+table th,
+table td {
+    padding: 10px;
+    text-align: center;
+    border: 5px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+}
+
+table th {
+    background-color: #b12252; /* Pink Table Header */
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for table rows */
+table tr:hover td {
+    background-color: #ddd;
+}
+
+/* Image Styling in Table */
+table img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+/* Product Actions Buttons */
+button.edit-btn,
+button.delete-btn {
+    padding: 5px 15px;
+    margin: 5px;
+    border: none;
+    background-color: #b12252; /* Pink button */
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button.edit-btn:hover,
+button.delete-btn:hover {
+    background-color: #000000; /* Darker pink */
+}
+
+button.delete-btn {
+    background-color: #ff81ab; /* Red color for delete button */
+}
+
+button.delete-btn:hover {
+    background-color: #000000; /* Darker red */
+}
+
+
+/* Add Product Section */
+#addProductSection {
+    padding: 30px 20px;
+    background-color: #ffffff;
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#addProductSection h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #b12252;  /* Pink color for heading */
+    text-align: center;
+}
+
+#add-product-form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-form input {
-    width: 80%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 16px;
+#add-product-form input,
+#add-product-form select {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+    width: 700px;  /* Increased width to make input bar wider */
+    border-radius: 5px;
+    border: 4px solid #ddd;
+    background-color: #ffffff; /* White background for input fields */
 }
 
-form input,
-form select {
-    width: 80%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-}
-
-form select {
-    appearance: none; /* Optional: Ensures consistent dropdown styling across browsers */
-}
-
-form button {
-    width: 80%;
-    padding: 12px;
-    background-color: #ff66b2;
+#add-product-form button {
+    padding: 12px 20px;
+    margin-top: 15px;
+    background-color: #b12252; /* Pink background for button */
     color: white;
-    border-radius: 8px;
-    font-size: 16px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 700px; /* Same width as the input fields */
 }
 
-form button:hover {
-    background-color: #ff3385;
-    transform: translateY(-2px);
+#add-product-form button:hover {
+    background-color: #000000; /* Darker pink on hover */
 }
 
-/* Table Styling */
-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-}
-
-table th, table td {
-    padding: 12px;
+/* Footer */
+footer {
     text-align: center;
+    padding: 10px;
+    background-color: #b12252; /* Pink footer */
+    color: rgb(255, 255, 255);
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 1rem;
+}
+
+/* Login Page */
+#login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff; /* Black background for login */
+}
+
+.login-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+#login h1 {
+    font-size: 2.5rem;
+    color: #b12252; /* Pink color */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 1rem;
+    border-radius: 5px;
     border: 1px solid #ddd;
 }
 
-table th {
-    background-color: #f1f1f1;
-    font-weight: bold;
-}
-
-table td {
-    background-color: #fff;
-}
-
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #b12252; /* Pink button */
+    color: white;
+    border: none;
     border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    #header h1 {
-        font-size: 1.5rem;
-    }
-
-    #navButtons {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    #navButtons a {
-        font-size: 14px;
-        margin: 5px;
-    }
-
-    section {
-        margin: 10px;
-    }
-
-    form input, form button {
-        width: 90%;
-    }
-
-    table th, table td {
-        padding: 8px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    #header {
-        padding: 10px;
-    }
-
-    #header h1 {
-        font-size: 1.3rem;
-    }
-
-    #navButtons a {
-        font-size: 12px;
-    }
-
-    section {
-        padding: 15px;
-    }
+button[type="submit"]:hover {
+    background-color: #b12252; /* Darker pink on hover */
 }
