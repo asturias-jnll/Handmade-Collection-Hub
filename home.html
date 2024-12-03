@@ -8,21 +8,31 @@
 </head>
 <body>
 
+    <!-- Header Section -->
     <div id="header">
         <h1>Handmade Collection Hub</h1>
         <div id="navButtons">
-            <a href="home.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="product-list.html">Product List</a>
-            <a href="add-product.html">Add Product</a>
-            <a href="login.html">Logout</a>
+            <a href="home.html" class="nav-button" id="home-link">Home</a>
+            <a href="dashboard.html" class="nav-button" id="dashboard-link">Dashboard</a>
+            <a href="product-list.html" class="nav-button" id="product-list-link">Product List</a>
+            <a href="add-product.html" class="nav-button" id="add-product-link">Add Product</a>
+            <a href="login.html" class="nav-button" id="logout-link">Logout</a>
         </div>
     </div>
 
+    <!-- Home Section with Automatic Image Slider -->
     <section id="homeSection">
         <h2>Welcome to Handmade Collection Hub</h2>
         <p>Explore our handcrafted scrunchies, designed with care and creativity.</p>
-        <img src="https://via.placeholder.com/400x200" alt="Scrunchies">
+
+        <!-- Image Slider -->
+        <div class="slider">
+            <div class="slider-track">
+                <img src="https://cdn-gfcen.nitrocdn.com/PFAmOFYhIyeAeHbuefggoASMgjxgevbC/assets/images/optimized/rev-94c09d3/rubyscrunchieco.au/wp-content/uploads/2022/08/Medium-Satin-Scrunchies-2-scaled.jpg" alt="Scrunchie 1">
+                <img src="https://m.media-amazon.com/images/I/61R63ZcjruL._AC_.jpg" alt="Scrunchie 2">
+                <img src="https://m.media-amazon.com/images/I/71Sz+HjYUzL._AC_UF894,1000_QL80_.jpg" alt="Scrunchie 3">
+            </div>
+        </div>
     </section>
 
 </body>
