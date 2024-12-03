@@ -160,11 +160,6 @@ if (document.getElementById("productListSection")) {
 // JavaScript to handle active nav button
 document.addEventListener('DOMContentLoaded', (event) => {
     const navButtons = document.querySelectorAll('#navButtons .nav-button');
-    const themeToggleButton = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('theme') || 'light-theme';
-
-    // Apply the saved theme
-    document.body.classList.add(currentTheme);
 
     // Retrieve the active nav button from localStorage
     const activeNavId = localStorage.getItem('activeNavId');
@@ -185,17 +180,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // Store the active button's ID in localStorage
             localStorage.setItem('activeNavId', this.id);
         });
-    });
-
-    // Toggle theme
-    themeToggleButton.addEventListener('click', () => {
-        const currentTheme = document.body.classList.contains('light-theme') ? 'light-theme' : 'dark-theme';
-        const newTheme = currentTheme === 'light-theme' ? 'dark-theme' : 'light-theme';
-
-        document.body.classList.remove(currentTheme);
-        document.body.classList.add(newTheme);
-
-        // Save the selected theme in localStorage
-        localStorage.setItem('theme', newTheme);
     });
 });
