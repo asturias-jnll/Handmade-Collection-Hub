@@ -61,7 +61,7 @@
     <!-- Add/Edit Product Modal -->
     <div id="product-modal" class="modal">
         <div class="modal-content">
-            <span id="close-modal" class="close-button">&times;</span>
+            <!-- Removed the close-modal "X" here -->
             <h2 id="modal-title">Add New Product</h2>
             <form id="product-form">
                 <input id="modal-product-name" type="text" placeholder="Product Name" required>
@@ -74,12 +74,24 @@
                 <input id="modal-product-price" type="number" placeholder="Price" required>
                 <input id="modal-product-stock" type="number" placeholder="Stock" required>
                 <input id="modal-product-image" type="file" accept="image/*">
-                <button type="submit" id="modal-submit-button">Add Product</button>
+                
+                <div id="image-preview-container">
+                    <img id="image-preview" src="#" alt="Image Preview" style="display: none;"/>
+                    <!-- New "X" icon over image preview -->
+                    <span id="remove-image-icon" class="remove-image-icon" style="display:none;">&times;</span>
+                </div>
+
+                <!-- Removed the old remove-image-button -->
+                
+                <div class="modal-buttons">
+                    <!-- Cancel button on the left, Add Product on the right -->
+                    <button type="button" id="modal-cancel-button" class="cancel-button">Cancel</button>
+                    <button type="submit" id="modal-submit-button" class="add-button">Add Product</button>
+                </div>
             </form>
         </div>
     </div>
 
     <script src="crud.js"></script>
-    
 </body>
 </html>
