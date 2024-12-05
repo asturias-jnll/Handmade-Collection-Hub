@@ -36,7 +36,7 @@ body.dark-theme {
 /* Body and Main Layout */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: var(--bg-color); /* Light gray background */
+    background-color: var(--bg-color);
     color: var(--text-color);
 }
 
@@ -45,7 +45,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--header-bg); /* Black background for header */
+    background-color: var(--header-bg);
     color: var(--header-text);
     padding: 20px;
     position: sticky;
@@ -61,24 +61,22 @@ body {
 
 /* Style for the title link */
 #title-link {
-    text-decoration: none; /* Remove underline */
-    color: var(--header-text); /* Match the text color of the header */
+    text-decoration: none;
+    color: var(--header-text);
 }
 
-/* Ensure the link color remains the same even when visited */
 #title-link:visited {
-    color: var(--header-text); /* Match the text color */
+    color: var(--header-text);
 }
 
-/* Optional: Add hover effects */
 #title-link:hover {
-    text-decoration: underline; /* Optional underline on hover */
+    text-decoration: underline;
 }
 
 #navButtons {
     display: flex;
     gap: 15px;
-    justify-content: flex-end; /* Aligns the buttons to the right */
+    justify-content: flex-end;
     width: 800px;
 }
 
@@ -94,20 +92,21 @@ body {
 } 
 /* Hover effect */ 
 #navButtons a:hover { 
-    background-color: var(--primary-color); /* Pink Hover Color */ 
+    background-color: var(--primary-color); 
 } 
 /* Active nav button */ 
 #navButtons a.active { 
-    background-color: var(--primary-color); /* Keep the pink color for the active button */ }
+    background-color: var(--primary-color); 
+}
 
 /* Home Section */
 #homeSection {
     padding: 50px 10px;
-    background-color: var(--bg-color); /* Light background for home */
+    background-color: var(--bg-color);
     text-align: center;
     background-size: cover;
     background-position: center;
-    color: var(--text-color); /* Changed from white to black for text color */
+    color: var(--text-color);
     box-shadow: var(--box-color);
     margin-top: 50px;
     position: relative;
@@ -117,14 +116,14 @@ body {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: var(--text-color); /* Ensure heading text is black */
+    color: var(--text-color);
 }
 
 #homeSection p {
     font-size: 1.2rem;
     margin-bottom: 30px;
     line-height: 1.5;
-    color: var(--text-color); /* Ensure paragraph text is black */
+    color: var(--text-color);
 }
 
 /* Image Slider Styles */
@@ -185,15 +184,14 @@ body {
 
 /* Apply the animation to the slider track */
 .slider-track {
-    animation: slide 27s infinite; /* 3 seconds per image, total 27 seconds */
+    animation: slide 27s infinite;
 }
-
 
 /* Dashboard Section */
 #dashboardSection {
     padding: 100px 20px;
     text-align: center;
-    background-color: var(--bg-color);;
+    background-color: var(--bg-color);
     box-shadow: var(--box-color);
     margin-top: 50px;
 }
@@ -201,7 +199,7 @@ body {
 #dashboardSection h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: var(--text-color); /* Black header text */
+    color: var(--text-color);
     font-weight: bold;
 }
 
@@ -215,19 +213,19 @@ body {
 }
 
 .chart-canvas {
-    width: 80% !important; /* Adjust as needed */
-    height: 400px !important; /* Adjust as needed */
-    max-width: 400px; /* Ensure charts don't exceed this width */
-    margin: 0 auto; /* Center the charts */
+    width: 80% !important;
+    height: 400px !important;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 /* Product List Section */
 #productListSection {
-    padding: 30px 20px; /* Increase padding at the top for more space */
+    padding: 30px 20px;
     background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
+    align-items: center;
     margin-top: 50px;
     box-shadow: var(--box-color);
     position: relative;
@@ -237,45 +235,57 @@ body {
 #productListSection h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: var(--primary-color); /* Pink color for heading */
+    color: var(--primary-color);
     text-align: center;
 }
 
-
-/* Filters Section aligned to the upper-right corner */
+/* Filters Section */
 #productListSection .filters {
     display: flex;
-    gap: 0px; /* Space between each filter */
-    position: absolute; /* Absolute positioning */
-    top: 20px; /* Adjusted to align below the title */
-    right: 20px; /* Distance from the right */
-    align-items: center; /* Align items horizontally */
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Input and Select Fields in Filters */
-#productListSection input,
-#productListSection select {
+#productListSection .filters input,
+#productListSection .filters select {
     padding: 7px;
     font-size: 1rem;
     border-radius: 10px;
     border: 4px solid #ddd;
-    width: 300px; /* Set a fixed width for the filter fields */
-    background-color: var(--bg-color); /* White background for input fields */
+    background-color: var(--bg-color);
     color: var(--text-color);
+    width: auto;
 }
 
+/* Add Product Button */
+.add-product-btn {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.add-product-btn:hover {
+    background-color: #000000;
+}
 
 /* Product Table Container */
 #productListSection .table-container {
     display: flex;
-    justify-content: center; /* Center the table horizontally */
-    margin-top: 20px; /* Space between filters and the table */
-    width: 100%; /* Ensure the container takes up the full width */
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
 }
 
 /* Product Table */
 #productListSection table {
-    width: 80%; /* Table takes 80% of the width */
+    width: 80%;
     border-collapse: collapse;
     border-radius: 10px;
     overflow: hidden;
@@ -292,7 +302,7 @@ table td {
 }
 
 table th {
-    background-color: var(--primary-color); /* Pink Table Header */
+    background-color: var(--primary-color);
     color: white;
     text-transform: uppercase;
     font-weight: bold;
@@ -322,7 +332,7 @@ button.delete-btn {
     padding: 5px 15px;
     margin: 5px;
     border: none;
-    background-color: var(--primary-color); /* Pink button */
+    background-color: var(--primary-color);
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -332,72 +342,93 @@ button.delete-btn {
 
 button.edit-btn:hover,
 button.delete-btn:hover {
-    background-color: #000000; /* Darker pink */
+    background-color: #000000;
 }
 
 button.delete-btn {
-    background-color: var(--secondary-color); /* Red color for delete button */
+    background-color: var(--secondary-color);
 }
 
 button.delete-btn:hover {
-    background-color: #000000; /* Darker red */
+    background-color: #000000;
 }
 
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
 
-/* Add Product Section */
-#addProductSection {
-    padding: 30px 20px;
+.modal-content {
     background-color: var(--bg-color);
-    margin-top: 50px;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+    position: relative;
     box-shadow: var(--box-color);
 }
 
-#addProductSection h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--primary-color); /* Pink color for heading */
-    text-align: center;
+.close-button {
+    color: var(--text-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-#add-product-form {
+.close-button:hover,
+.close-button:focus {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#product-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-#add-product-form input,
-#add-product-form select {
+#product-form input,
+#product-form select {
     padding: 10px;
     margin: 10px 0;
     font-size: 1rem;
-    width: 700px;  /* Increased width to make input bar wider */
     border-radius: 5px;
-    border: 4px solid #ddd;
-    background-color: var(--bg-color); /* White background for input fields */
+    border: 1px solid #ddd;
+    background-color: var(--bg-color);
     color: var(--text-color);
 }
 
-#add-product-form button {
+#product-form button {
     padding: 12px 20px;
     margin-top: 15px;
-    background-color: var(--primary-color); /* Pink background for button */
+    background-color: var(--primary-color);
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     font-weight: bold;
-    width: 700px; /* Same width as the input fields */
+    transition: background-color 0.3s ease;
 }
 
-#add-product-form button:hover {
-    background-color: #000000; /* Darker pink on hover */
+#product-form button:hover {
+    background-color: #000000;
 }
 
 /* Footer */
 footer {
     text-align: center;
     padding: 10px;
-    background-color: var(--footer-bg); /* Pink footer */
+    background-color: var(--footer-bg);
     color: rgb(255, 255, 255);
     margin-top: 50px;
 }
@@ -412,25 +443,25 @@ footer p {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: var(--bg-color);/* White background for login */
+    background-color: var(--bg-color);
 }
 
 .login-container {
-    text-align: center; /* Center logo, title, and form */
+    text-align: center;
 }
 
 .logo img {
-    width: 150px; /* Adjust width to your preferred size */
-    height: 150px; /* Ensure it's a square */
-    border-radius: 50%; /* Makes the image circular */
-    object-fit: cover; /* Ensures the image fits within the circle */
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 10px;
-    border: 3px solid var(--primary-color);/* Optional: Add a border to match the theme */
+    border: 3px solid var(--primary-color);
 }
 
 .header h1 {
     font-size: 1.5rem;
-    color: var(--primary-color); /* Pink color */
+    color: var(--primary-color);
     margin-bottom: 10px;
     text-align: center;
 }
@@ -457,7 +488,7 @@ input[type="password"] {
 button[type="submit"] {
     width: 100%;
     padding: 12px;
-    background-color: var(--primary-color);/* Pink button */
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -467,7 +498,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #8d1942; /* Darker pink on hover */
+    background-color: #8d1942;
 }
 
 /* Theme Toggle Button with Icon */
@@ -482,7 +513,7 @@ button[type="submit"]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem; /* Adjust the font size for the icon */
+    font-size: 1.2rem;
     transition: background-color 0.3s ease;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
@@ -493,14 +524,30 @@ button[type="submit"]:hover {
 
 /* Dark Theme Icon Styles */
 body.dark-theme #themeToggle::before {
-    content: "\f186"; /* Unicode for Font Awesome moon icon */
+    content: "\f186";
     font-family: "Font Awesome 5 Free"; 
     font-weight: 900;
 }
 
 /* Light Theme Icon Styles */
 #themeToggle::before {
-    content: "\f185"; /* Unicode for Font Awesome sun icon */
+    content: "\f185";
     font-family: "Font Awesome 5 Free"; 
     font-weight: 900;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+    }
+
+    #productListSection table {
+        width: 100%;
+    }
+
+    #productListSection .filters {
+        flex-direction: column;
+        align-items: center;
+    }
 }
