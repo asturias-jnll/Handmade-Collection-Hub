@@ -9,10 +9,12 @@ let editProductIndex = null;
 // DOM Elements
 const modal = document.getElementById('product-modal');
 const openAddModalBtn = document.getElementById('open-add-modal');
-const closeModalBtn = document.getElementById('close-modal');
 const productForm = document.getElementById('product-form');
 const modalTitle = document.getElementById('modal-title');
 const modalSubmitButton = document.getElementById('modal-submit-button');
+const modalCancelButton = document.getElementById('modal-cancel-button');
+const removeImageIcon = document.getElementById('remove-image-icon'); // New "X" icon over the image
+const imagePreview = document.getElementById("image-preview");
 
 // Filter Elements
 const searchBar = document.getElementById("search-bar");
@@ -24,16 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent the default form submission
-
+            event.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
-            // Perform validation or authentication here (if any)
-            // For now, we'll just log the credentials and redirect
             console.log(`Username: ${username}, Password: ${password}`);
-
-            // Redirect to home.html
             window.location.href = 'home.html';
         });
     }
@@ -54,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', currentTheme);
     });
 
-    // Initialize the dashboard 
+    // Initialize the dashboard
     if (document.getElementById("dashboardSection")) { 
         fetchProducts(); 
         renderDashboard(); 
@@ -63,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById("productListSection")) { 
         fetchProducts(); 
-        applyFilters(); // Initialize filteredProducts and render the list 
+        applyFilters(); // Initialize filteredProducts and render the list
 
-        // **Attach event listeners for filters**
+        // Attach event listeners for filters
         searchBar?.addEventListener("input", applyFilters);
         filterCategory?.addEventListener("change", applyFilters);
         filterPrice?.addEventListener("change", applyFilters);
@@ -77,12 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTitle.innerText = 'Add New Product';
         modalSubmitButton.innerText = 'Add Product';
         productForm.reset();
+        imagePreview.style.display = "none";
+        removeImageIcon.style.display = "none";
         modal.style.display = 'block';
     });
 
-    // Close Modal
-    closeModalBtn?.addEventListener('click', () => {
+    // Cancel Button Handler
+    modalCancelButton?.addEventListener('click', () => {
         modal.style.display = 'none';
+    });
+
+    // Remove Image Icon Handler
+    removeImageIcon?.addEventListener('click', () => {
+        imagePreview.src = "#";
+        imagePreview.style.display = "none";
+        document.getElementById("modal-product-image").value = "";
+        removeImageIcon.style.display = "none";
     });
 
     // Close modal when clicking outside the content
@@ -101,9 +107,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const price = parseFloat(document.getElementById("modal-product-price").value);
         const stock = parseInt(document.getElementById("modal-product-stock").value);
         const imageFile = document.getElementById("modal-product-image").files[0];
-        let image;
+
+        // Validation Checks Before Processing
+        if (!imageFile && !isEditMode) {
+            alert("Please upload an image!");
+            return;
+        }
+
+        if (price <= 0) {
+            alert("Price must be greater than 0!");
+            return;
+        }
+
+        if (stock <= 0) {
+            alert("Stock must be greater than 0!");
+            return;
+        }
 
         if (imageFile) {
+            let image;
             const reader = new FileReader();
             reader.onload = function(e) {
                 image = e.target.result;
@@ -111,15 +133,13 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             reader.readAsDataURL(imageFile);
         } else {
-            image = "https://via.placeholder.com/100"; // Placeholder image
-            processFormData({ name, category, price, stock, image });
+            // Use existing image if editing and no new image is provided
+            processFormData({ name, category, price, stock });
         }
     });
 
     // JavaScript to handle active nav button
     const navButtons = document.querySelectorAll('#navButtons .nav-button');
-
-    // Retrieve the active nav button from localStorage
     const activeNavId = localStorage.getItem('activeNavId');
     if (activeNavId) {
         const activeNav = document.getElementById(activeNavId);
@@ -130,14 +150,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Remove 'active' class from all buttons
             navButtons.forEach(btn => btn.classList.remove('active'));
-            // Add 'active' class to the clicked button
             this.classList.add('active');
-
-            // Store the active button's ID in localStorage
             localStorage.setItem('activeNavId', this.id);
         });
+    });
+
+    // JavaScript to handle image preview
+    document.getElementById("modal-product-image")?.addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (imagePreview) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = "block";
+                    removeImageIcon.style.display = "block";
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     });
 });
 
@@ -167,7 +199,6 @@ function renderProductList() {
 
     filteredProducts.forEach((product, index) => {
         const row = document.createElement("tr");
-
         row.innerHTML = `
             <td><img src="${product.image}" alt="Product Image"></td>
             <td>${product.name}</td>
@@ -184,7 +215,6 @@ function renderProductList() {
 }
 
 function renderCharts() { 
-    // Product Category Distribution Chart 
     const categoryCounts = {}; 
     products.forEach(product => { 
         categoryCounts[product.category] = (categoryCounts[product.category] || 0) + 1; 
@@ -192,32 +222,33 @@ function renderCharts() {
     const categoryLabels = Object.keys(categoryCounts); 
     const categoryData = Object.values(categoryCounts); 
     
-    const productCategoryCtx = document.getElementById('productCategoryChart').getContext('2d'); 
-    new Chart(productCategoryCtx, { 
-        type: 'pie', 
-        data: { 
-            labels: categoryLabels, 
-            datasets: [{ 
-                data: categoryData, 
-                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0'], 
-                hoverOffset: 4 
-            }] 
-        } 
-    });  
+    const productCategoryCtx = document.getElementById('productCategoryChart')?.getContext('2d'); 
+    if (productCategoryCtx) {
+        new Chart(productCategoryCtx, { 
+            type: 'pie', 
+            data: { 
+                labels: categoryLabels, 
+                datasets: [{ 
+                    data: categoryData, 
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0'], 
+                    hoverOffset: 4 
+                }] 
+            } 
+        });
+    }  
 }
 
 // Process Form Data for Add or Edit
 function processFormData(product) {
     if (product.name && product.category && !isNaN(product.price) && !isNaN(product.stock)) {
         if (isEditMode) {
-            // Update existing product
             products[editProductIndex] = { ...products[editProductIndex], ...product };
             alert("Product updated successfully!");
         } else {
-            // Add new product
             products.push(product);
             alert("Product added successfully!");
         }
+
         saveProducts();
         fetchProducts();
         applyFilters();
@@ -231,18 +262,30 @@ function processFormData(product) {
 function editProduct(index) {
     isEditMode = true;
     const product = filteredProducts[index];
-    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category && p.price === product.price && p.stock === product.stock);
+    const actualIndex = products.findIndex(p => 
+        p.name === product.name && 
+        p.category === product.category && 
+        p.price === product.price && 
+        p.stock === product.stock
+    );
     editProductIndex = actualIndex; // Store the actual index in the products array
 
     modalTitle.innerText = 'Edit Product';
     modalSubmitButton.innerText = 'Update Product';
 
-    // Pre-fill the form with existing product data
     document.getElementById("modal-product-name").value = product.name;
     document.getElementById("modal-product-category").value = product.category;
     document.getElementById("modal-product-price").value = product.price;
     document.getElementById("modal-product-stock").value = product.stock;
-    // Note: For security reasons, file inputs cannot be pre-filled
+
+    if (product.image) {
+        imagePreview.src = product.image;
+        imagePreview.style.display = "block";
+        removeImageIcon.style.display = "block";
+    } else {
+        imagePreview.style.display = "none";
+        removeImageIcon.style.display = "none";
+    }
 
     modal.style.display = 'block';
 }
@@ -250,7 +293,12 @@ function editProduct(index) {
 // Delete Product Function
 function deleteProduct(index) {
     const product = filteredProducts[index];
-    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category && p.price === product.price && p.stock === product.stock);
+    const actualIndex = products.findIndex(p => 
+        p.name === product.name && 
+        p.category === product.category && 
+        p.price === product.price && 
+        p.stock === product.stock
+    );
 
     if (confirm("Are you sure you want to delete this product?")) {
         products.splice(actualIndex, 1);
