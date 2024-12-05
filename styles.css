@@ -214,6 +214,13 @@ body {
     margin: 20px 0;
 }
 
+.chart-canvas {
+    width: 80% !important; /* Adjust as needed */
+    height: 400px !important; /* Adjust as needed */
+    max-width: 400px; /* Ensure charts don't exceed this width */
+    margin: 0 auto; /* Center the charts */
+}
+
 /* Product List Section */
 #productListSection {
     padding: 30px 20px; /* Increase padding at the top for more space */
