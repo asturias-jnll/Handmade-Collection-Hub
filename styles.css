@@ -70,7 +70,7 @@ body {
 }
 
 #title-link:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 #navButtons {
@@ -189,11 +189,15 @@ body {
 
 /* Dashboard Section */
 #dashboardSection {
-    padding: 100px 20px;
-    text-align: center;
+    padding: 40px 20px;
+    display: flex; /* Use flexbox for side-by-side alignment */
+    justify-content: space-between; /* Push items to edges */
+    align-items: center; /* Align items vertically */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
     background-color: var(--bg-color);
     box-shadow: var(--box-color);
     margin-top: 50px;
+    text-align: left; /* Ensure text aligns to the left in the info section */
 }
 
 #dashboardSection h2 {
@@ -212,11 +216,13 @@ body {
     margin: 20px 0;
 }
 
+/* Chart Canvas Section */
 .chart-canvas {
     width: 80% !important;
     height: 400px !important;
     max-width: 400px;
-    margin: 0 auto;
+    margin-left: auto; /* Push the chart to the right */
+    margin-right: 300px;
 }
 
 /* Product List Section */
@@ -243,9 +249,10 @@ body {
 #productListSection .filters {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 1px;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center; /* Align items horizontally */
 }
 
 #productListSection .filters input,
@@ -261,7 +268,7 @@ body {
 
 /* Add Product Button */
 .add-product-btn {
-    padding: 10px 20px;
+    padding: 7px 20px;
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -269,6 +276,7 @@ body {
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    height: 40px;
 }
 
 .add-product-btn:hover {
@@ -279,7 +287,7 @@ body {
 #productListSection .table-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -359,7 +367,7 @@ button.delete-btn:hover {
     position: fixed; /* Stay in place */
     z-index: 1000; /* Sit on top */
     left: 0;
-    top: 0;
+    top: 60px;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
@@ -368,8 +376,8 @@ button.delete-btn:hover {
 
 .modal-content {
     background-color: var(--bg-color);
-    margin: 5% auto; /* 5% from the top and centered */
-    padding: 20px;
+    margin: 6% auto; /* 5% from the top and centered */
+    padding: 20px 15px;
     border: 1px solid #888;
     width: 500px; /* Could be more or less, depending on screen size */
     border-radius: 10px;
@@ -380,7 +388,7 @@ button.delete-btn:hover {
 .close-button {
     color: var(--text-color);
     float: right;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
 }
