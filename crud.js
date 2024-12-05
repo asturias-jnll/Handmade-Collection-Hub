@@ -3,6 +3,24 @@ let products = [];
 let filteredProducts = [];
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Handle login form submission
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the default form submission
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Perform validation or authentication here (if any)
+        // For now, we'll just log the credentials and redirect
+        console.log(`Username: ${username}, Password: ${password}`);
+
+        // Redirect to home.html
+        window.location.href = 'home.html';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const themeToggleBtn = document.getElementById('themeToggle');
 
