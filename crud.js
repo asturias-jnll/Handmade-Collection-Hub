@@ -2,25 +2,42 @@ const storageKey = "products";
 let products = [];
 let filteredProducts = [];
 
+// Variables to track edit mode
+let isEditMode = false;
+let editProductIndex = null;
+
+// DOM Elements
+const modal = document.getElementById('product-modal');
+const openAddModalBtn = document.getElementById('open-add-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const productForm = document.getElementById('product-form');
+const modalTitle = document.getElementById('modal-title');
+const modalSubmitButton = document.getElementById('modal-submit-button');
+
+// Filter Elements
+const searchBar = document.getElementById("search-bar");
+const filterCategory = document.getElementById("filter-category");
+const filterPrice = document.getElementById("filter-price");
+
 document.addEventListener('DOMContentLoaded', () => {
     // Handle login form submission
     const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the default form submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent the default form submission
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-        // Perform validation or authentication here (if any)
-        // For now, we'll just log the credentials and redirect
-        console.log(`Username: ${username}, Password: ${password}`);
+            // Perform validation or authentication here (if any)
+            // For now, we'll just log the credentials and redirect
+            console.log(`Username: ${username}, Password: ${password}`);
 
-        // Redirect to home.html
-        window.location.href = 'home.html';
-    });
-});
+            // Redirect to home.html
+            window.location.href = 'home.html';
+        });
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const themeToggleBtn = document.getElementById('themeToggle');
 
@@ -31,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Toggle theme and icon
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggleBtn?.addEventListener('click', () => {
         body.classList.toggle('dark-theme');
         const currentTheme = body.classList.contains('dark-theme') ? 'dark-theme' : '';
         localStorage.setItem('theme', currentTheme);
@@ -43,10 +60,85 @@ document.addEventListener('DOMContentLoaded', () => {
         renderDashboard(); 
         renderCharts(); 
     } 
+
     if (document.getElementById("productListSection")) { 
         fetchProducts(); 
         applyFilters(); // Initialize filteredProducts and render the list 
-        } 
+
+        // **Attach event listeners for filters**
+        searchBar?.addEventListener("input", applyFilters);
+        filterCategory?.addEventListener("change", applyFilters);
+        filterPrice?.addEventListener("change", applyFilters);
+    }
+
+    // Open Add Product Modal
+    openAddModalBtn?.addEventListener('click', () => {
+        isEditMode = false;
+        modalTitle.innerText = 'Add New Product';
+        modalSubmitButton.innerText = 'Add Product';
+        productForm.reset();
+        modal.style.display = 'block';
+    });
+
+    // Close Modal
+    closeModalBtn?.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside the content
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Handle Form Submission (Add or Edit)
+    productForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById("modal-product-name").value.trim();
+        const category = document.getElementById("modal-product-category").value;
+        const price = parseFloat(document.getElementById("modal-product-price").value);
+        const stock = parseInt(document.getElementById("modal-product-stock").value);
+        const imageFile = document.getElementById("modal-product-image").files[0];
+        let image;
+
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                image = e.target.result;
+                processFormData({ name, category, price, stock, image });
+            };
+            reader.readAsDataURL(imageFile);
+        } else {
+            image = "https://via.placeholder.com/100"; // Placeholder image
+            processFormData({ name, category, price, stock, image });
+        }
+    });
+
+    // JavaScript to handle active nav button
+    const navButtons = document.querySelectorAll('#navButtons .nav-button');
+
+    // Retrieve the active nav button from localStorage
+    const activeNavId = localStorage.getItem('activeNavId');
+    if (activeNavId) {
+        const activeNav = document.getElementById(activeNavId);
+        if (activeNav) {
+            activeNav.classList.add('active');
+        }
+    }
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove 'active' class from all buttons
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            // Add 'active' class to the clicked button
+            this.classList.add('active');
+
+            // Store the active button's ID in localStorage
+            localStorage.setItem('activeNavId', this.id);
+        });
+    });
 });
 
 // Utility to save and retrieve products
@@ -56,12 +148,10 @@ function saveProducts() {
 
 function fetchProducts() {
     products = JSON.parse(localStorage.getItem(storageKey)) || [];
-    // Do not reset filteredProducts here
 }
 
 // Render functions
 function renderDashboard() {
-    // No need to call fetchProducts() here if already called during initialization
     const totalProducts = products.length;
     const lowStockCount = products.filter(product => product.stock <= 5).length;
     const categories = [...new Set(products.map(product => product.category))].length;
@@ -116,138 +206,78 @@ function renderCharts() {
     });  
 }
 
-// CRUD Operations
-function addProduct(event) {
-    event.preventDefault();
-    // Fetch existing products first
-    fetchProducts();
-    // Then proceed to collect form data
-    const name = document.getElementById("product-name").value.trim();
-    const category = document.getElementById("product-category").value;
-    const price = parseFloat(document.getElementById("product-price").value);
-    const stock = parseInt(document.getElementById("product-stock").value);
-    const imageFile = document.getElementById("product-image").files[0];
-    let image;
-
-    if (imageFile) {
-        // Read the image file as a data URL
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            image = e.target.result;
-            // Now that we have the image data, proceed to add the product
-            addProductToList({ name, category, price, stock, image });
-        };
-        reader.readAsDataURL(imageFile);
-    } else {
-        image = "https://via.placeholder.com/50"; // Placeholder image
-        addProductToList({ name, category, price, stock, image });
-    }
-}
-
-function addProductToList(product) {
+// Process Form Data for Add or Edit
+function processFormData(product) {
     if (product.name && product.category && !isNaN(product.price) && !isNaN(product.stock)) {
-        products.push(product);
+        if (isEditMode) {
+            // Update existing product
+            products[editProductIndex] = { ...products[editProductIndex], ...product };
+            alert("Product updated successfully!");
+        } else {
+            // Add new product
+            products.push(product);
+            alert("Product added successfully!");
+        }
         saveProducts();
-        fetchProducts(); // Fetch updated products
-        alert("Product added successfully!");
-        document.getElementById("add-product-form").reset();
+        fetchProducts();
+        applyFilters();
+        modal.style.display = 'none';
     } else {
         alert("Please fill all fields correctly!");
     }
 }
 
-
+// Edit Product Function
 function editProduct(index) {
-    const product = filteredProducts[index]; // Use filteredProducts here
-    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category);
-    const newName = prompt("Enter new name:", product.name);
-    const newCategory = prompt("Enter new category (baby, regular, giant):", product.category);
-    const newPrice = parseFloat(prompt("Enter new price:", product.price));
-    const newStock = parseInt(prompt("Enter new stock:", product.stock));
+    isEditMode = true;
+    const product = filteredProducts[index];
+    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category && p.price === product.price && p.stock === product.stock);
+    editProductIndex = actualIndex; // Store the actual index in the products array
 
-    if (newName && newCategory && !isNaN(newPrice) && !isNaN(newStock)) {
-        products[actualIndex] = { ...product, name: newName, category: newCategory, price: newPrice, stock: newStock };
-        saveProducts();
-        fetchProducts(); // Update products array
-        alert("Product updated successfully!");
-        applyFilters(); // Re-apply filters to update the list
-    } else {
-        alert("Invalid input!");
-    }
+    modalTitle.innerText = 'Edit Product';
+    modalSubmitButton.innerText = 'Update Product';
+
+    // Pre-fill the form with existing product data
+    document.getElementById("modal-product-name").value = product.name;
+    document.getElementById("modal-product-category").value = product.category;
+    document.getElementById("modal-product-price").value = product.price;
+    document.getElementById("modal-product-stock").value = product.stock;
+    // Note: For security reasons, file inputs cannot be pre-filled
+
+    modal.style.display = 'block';
 }
 
+// Delete Product Function
 function deleteProduct(index) {
-    const product = filteredProducts[index]; // Use filteredProducts here
-    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category);
+    const product = filteredProducts[index];
+    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category && p.price === product.price && p.stock === product.stock);
 
     if (confirm("Are you sure you want to delete this product?")) {
         products.splice(actualIndex, 1);
         saveProducts();
-        fetchProducts(); // Update products array
+        fetchProducts();
         alert("Product deleted successfully!");
-        applyFilters(); // Re-apply filters to update the list
+        applyFilters();
     }
 }
 
 // Filter and Search
 function applyFilters() {
-    const searchQuery = document.getElementById("search-bar").value.toLowerCase();
-    const categoryFilter = document.getElementById("filter-category").value;
-    const priceFilter = document.getElementById("filter-price").value;
+    const searchQuery = searchBar?.value.toLowerCase() || "";
+    const categoryFilterValue = filterCategory?.value || "all";
+    const priceFilterValue = filterPrice?.value || "none";
 
     filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchQuery);
-        const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
+        const matchesCategory = categoryFilterValue === "all" || product.category === categoryFilterValue;
         return matchesSearch && matchesCategory;
     });
 
-    if (priceFilter === "low-to-high") {
+    if (priceFilterValue === "low-to-high") {
         filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (priceFilter === "high-to-low") {
+    } else if (priceFilterValue === "high-to-low") {
         filteredProducts.sort((a, b) => b.price - a.price);
     }
 
     renderProductList();
 }
-
-// Attach event listeners
-document.getElementById("add-product-form")?.addEventListener("submit", addProduct);
-document.getElementById("search-bar")?.addEventListener("input", applyFilters);
-document.getElementById("filter-category")?.addEventListener("change", applyFilters);
-document.getElementById("filter-price")?.addEventListener("change", applyFilters);
-
-// Initialize pages
-if (document.getElementById("dashboardSection")) {
-    fetchProducts();
-    renderDashboard();
-}
-if (document.getElementById("productListSection")) {
-    fetchProducts();
-    applyFilters(); // Initialize filteredProducts and render the list
-}
-
-// JavaScript to handle active nav button
-document.addEventListener('DOMContentLoaded', (event) => {
-    const navButtons = document.querySelectorAll('#navButtons .nav-button');
-
-    // Retrieve the active nav button from localStorage
-    const activeNavId = localStorage.getItem('activeNavId');
-    if (activeNavId) {
-        const activeNav = document.getElementById(activeNavId);
-        if (activeNav) {
-            activeNav.classList.add('active');
-        }
-    }
-
-    navButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove 'active' class from all buttons
-            navButtons.forEach(btn => btn.classList.remove('active'));
-            // Add 'active' class to the clicked button
-            this.classList.add('active');
-
-            // Store the active button's ID in localStorage
-            localStorage.setItem('activeNavId', this.id);
-        });
-    });
-});
