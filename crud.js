@@ -1,506 +1,253 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+const storageKey = "products";
+let products = [];
+let filteredProducts = [];
 
-/* Theme Variables */
-:root {
-    --bg-color: #f9f9f9;
-    --text-color: #333;
-    --header-bg: #000000;
-    --header-text: #b12252;
-    --primary-color: #b12252;
-    --secondary-color: #ff81ab;
-    --button-hover-bg: #8d1942;
-    --footer-bg: #b12252;
-    --table-hover-bg: #ddd;
-    --box-color: 0 0 10px rgba(0, 0, 0, 0.5);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle login form submission
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the default form submission
 
-/* Dark Theme Variables */
-body.dark-theme {
-    --bg-color: #121212;
-    --text-color: #e0e0e0;
-    --header-bg: #333333;
-    --header-text: #ff81ab;
-    --primary-color: #ff81ab;
-    --secondary-color: #b12252;
-    --button-hover-bg: #ff3366;
-    --footer-bg: #222;
-    --table-hover-bg: #555;
-    --box-color: 0 0 10px rgba(255, 255, 255, 0.5);
-}
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
-/* Body and Main Layout */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: var(--bg-color); /* Light gray background */
-    color: var(--text-color);
-}
+        // Perform validation or authentication here (if any)
+        // For now, we'll just log the credentials and redirect
+        console.log(`Username: ${username}, Password: ${password}`);
 
-/* Header with title and navigation */
-#header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--header-bg); /* Black background for header */
-    color: var(--header-text);
-    padding: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+        // Redirect to home.html
+        window.location.href = 'home.html';
+    });
+});
 
-#header h1 {
-    font-size: 2rem;
-    letter-spacing: 1px;
-    margin: 0;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const themeToggleBtn = document.getElementById('themeToggle');
 
-/* Style for the title link */
-#title-link {
-    text-decoration: none; /* Remove underline */
-    color: var(--header-text); /* Match the text color of the header */
-}
-
-/* Ensure the link color remains the same even when visited */
-#title-link:visited {
-    color: var(--header-text); /* Match the text color */
-}
-
-/* Optional: Add hover effects */
-#title-link:hover {
-    text-decoration: underline; /* Optional underline on hover */
-}
-
-#navButtons {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end; /* Aligns the buttons to the right */
-    width: 800px;
-}
-
-#navButtons a { 
-    color: white; 
-    text-decoration: none; 
-    font-size: 0.8rem; 
-    font-weight: bold; 
-    text-transform: uppercase; 
-    padding: 10px; 
-    border-radius: 5px; 
-    transition: background-color 0.3s; 
-} 
-/* Hover effect */ 
-#navButtons a:hover { 
-    background-color: var(--primary-color); /* Pink Hover Color */ 
-} 
-/* Active nav button */ 
-#navButtons a.active { 
-    background-color: var(--primary-color); /* Keep the pink color for the active button */ }
-
-/* Home Section */
-#homeSection {
-    padding: 50px 10px;
-    background-color: var(--bg-color); /* Light background for home */
-    text-align: center;
-    background-size: cover;
-    background-position: center;
-    color: var(--text-color); /* Changed from white to black for text color */
-    box-shadow: var(--box-color);
-    margin-top: 50px;
-    position: relative;
-}
-
-#homeSection h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--text-color); /* Ensure heading text is black */
-}
-
-#homeSection p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    line-height: 1.5;
-    color: var(--text-color); /* Ensure paragraph text is black */
-}
-
-/* Image Slider Styles */
-.slider {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-    overflow: hidden;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-}
-
-.slider-track {
-    display: flex;
-    transition: transform 1s ease-in-out;
-}
-
-.slider img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Animation for automatic sliding with 9 pictures */
-@keyframes slide {
-    0% {
-        transform: translateX(0);
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        body.classList.add(savedTheme);
     }
-    11.11% {
-        transform: translateX(-100%);
-    }
-    22.22% {
-        transform: translateX(-200%);
-    }
-    33.33% {
-        transform: translateX(-300%);
-    }
-    44.44% {
-        transform: translateX(-400%);
-    }
-    55.55% {
-        transform: translateX(-500%);
-    }
-    66.66% {
-        transform: translateX(-600%);
-    }
-    77.77% {
-        transform: translateX(-700%);
-    }
-    88.88% {
-        transform: translateX(-800%);
-    }
-    100% {
-        transform: translateX(0);
+
+    // Toggle theme and icon
+    themeToggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+        const currentTheme = body.classList.contains('dark-theme') ? 'dark-theme' : '';
+        localStorage.setItem('theme', currentTheme);
+    });
+
+    // Initialize the dashboard 
+    if (document.getElementById("dashboardSection")) { 
+        fetchProducts(); 
+        renderDashboard(); 
+        renderCharts(); 
+    } 
+    if (document.getElementById("productListSection")) { 
+        fetchProducts(); 
+        applyFilters(); // Initialize filteredProducts and render the list 
+        } 
+});
+
+// Utility to save and retrieve products
+function saveProducts() {
+    localStorage.setItem(storageKey, JSON.stringify(products));
+}
+
+function fetchProducts() {
+    products = JSON.parse(localStorage.getItem(storageKey)) || [];
+    // Do not reset filteredProducts here
+}
+
+// Render functions
+function renderDashboard() {
+    // No need to call fetchProducts() here if already called during initialization
+    const totalProducts = products.length;
+    const lowStockCount = products.filter(product => product.stock <= 5).length;
+    const categories = [...new Set(products.map(product => product.category))].length;
+
+    document.getElementById("total-products").innerText = `Total Products: ${totalProducts}`;
+    document.getElementById("low-stock").innerText = `Low Stock: ${lowStockCount}`;
+    document.getElementById("categories").innerText = `Categories: ${categories}`;
+}
+
+function renderProductList() {
+    const tableBody = document.getElementById("product-list-body");
+    tableBody.innerHTML = "";
+
+    filteredProducts.forEach((product, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td><img src="${product.image}" alt="Product Image"></td>
+            <td>${product.name}</td>
+            <td>${product.category}</td>
+            <td>${product.price.toFixed(2)}</td>
+            <td>${product.stock}</td>
+            <td>
+                <button class="edit-btn" onclick="editProduct(${index})">Edit</button>
+                <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+function renderCharts() { 
+    // Product Category Distribution Chart 
+    const categoryCounts = {}; 
+    products.forEach(product => { 
+        categoryCounts[product.category] = (categoryCounts[product.category] || 0) + 1; 
+    }); 
+    const categoryLabels = Object.keys(categoryCounts); 
+    const categoryData = Object.values(categoryCounts); 
+    
+    const productCategoryCtx = document.getElementById('productCategoryChart').getContext('2d'); 
+    new Chart(productCategoryCtx, { 
+        type: 'pie', 
+        data: { 
+            labels: categoryLabels, 
+            datasets: [{ 
+                data: categoryData, 
+                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0'], 
+                hoverOffset: 4 
+            }] 
+        } 
+    });  
+}
+
+// CRUD Operations
+function addProduct(event) {
+    event.preventDefault();
+    // Fetch existing products first
+    fetchProducts();
+    // Then proceed to collect form data
+    const name = document.getElementById("product-name").value.trim();
+    const category = document.getElementById("product-category").value;
+    const price = parseFloat(document.getElementById("product-price").value);
+    const stock = parseInt(document.getElementById("product-stock").value);
+    const imageFile = document.getElementById("product-image").files[0];
+    let image;
+
+    if (imageFile) {
+        // Read the image file as a data URL
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            image = e.target.result;
+            // Now that we have the image data, proceed to add the product
+            addProductToList({ name, category, price, stock, image });
+        };
+        reader.readAsDataURL(imageFile);
+    } else {
+        image = "https://via.placeholder.com/50"; // Placeholder image
+        addProductToList({ name, category, price, stock, image });
     }
 }
 
-/* Apply the animation to the slider track */
-.slider-track {
-    animation: slide 27s infinite; /* 3 seconds per image, total 27 seconds */
+function addProductToList(product) {
+    if (product.name && product.category && !isNaN(product.price) && !isNaN(product.stock)) {
+        products.push(product);
+        saveProducts();
+        fetchProducts(); // Fetch updated products
+        alert("Product added successfully!");
+        document.getElementById("add-product-form").reset();
+    } else {
+        alert("Please fill all fields correctly!");
+    }
 }
 
 
-/* Dashboard Section */
-#dashboardSection {
-    padding: 100px 20px;
-    text-align: center;
-    background-color: var(--bg-color);;
-    box-shadow: var(--box-color);
-    margin-top: 50px;
+function editProduct(index) {
+    const product = filteredProducts[index]; // Use filteredProducts here
+    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category);
+    const newName = prompt("Enter new name:", product.name);
+    const newCategory = prompt("Enter new category (baby, regular, giant):", product.category);
+    const newPrice = parseFloat(prompt("Enter new price:", product.price));
+    const newStock = parseInt(prompt("Enter new stock:", product.stock));
+
+    if (newName && newCategory && !isNaN(newPrice) && !isNaN(newStock)) {
+        products[actualIndex] = { ...product, name: newName, category: newCategory, price: newPrice, stock: newStock };
+        saveProducts();
+        fetchProducts(); // Update products array
+        alert("Product updated successfully!");
+        applyFilters(); // Re-apply filters to update the list
+    } else {
+        alert("Invalid input!");
+    }
 }
 
-#dashboardSection h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--text-color); /* Black header text */
-    font-weight: bold;
+function deleteProduct(index) {
+    const product = filteredProducts[index]; // Use filteredProducts here
+    const actualIndex = products.findIndex(p => p.name === product.name && p.category === product.category);
+
+    if (confirm("Are you sure you want to delete this product?")) {
+        products.splice(actualIndex, 1);
+        saveProducts();
+        fetchProducts(); // Update products array
+        alert("Product deleted successfully!");
+        applyFilters(); // Re-apply filters to update the list
+    }
 }
 
-#dashboardSection ul {
-    list-style: none;
-    font-size: 1.2rem;
+// Filter and Search
+function applyFilters() {
+    const searchQuery = document.getElementById("search-bar").value.toLowerCase();
+    const categoryFilter = document.getElementById("filter-category").value;
+    const priceFilter = document.getElementById("filter-price").value;
+
+    filteredProducts = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery);
+        const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
+        return matchesSearch && matchesCategory;
+    });
+
+    if (priceFilter === "low-to-high") {
+        filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (priceFilter === "high-to-low") {
+        filteredProducts.sort((a, b) => b.price - a.price);
+    }
+
+    renderProductList();
 }
 
-#dashboardSection li {
-    margin: 20px 0;
+// Attach event listeners
+document.getElementById("add-product-form")?.addEventListener("submit", addProduct);
+document.getElementById("search-bar")?.addEventListener("input", applyFilters);
+document.getElementById("filter-category")?.addEventListener("change", applyFilters);
+document.getElementById("filter-price")?.addEventListener("change", applyFilters);
+
+// Initialize pages
+if (document.getElementById("dashboardSection")) {
+    fetchProducts();
+    renderDashboard();
+}
+if (document.getElementById("productListSection")) {
+    fetchProducts();
+    applyFilters(); // Initialize filteredProducts and render the list
 }
 
-.chart-canvas {
-    width: 80% !important; /* Adjust as needed */
-    height: 400px !important; /* Adjust as needed */
-    max-width: 400px; /* Ensure charts don't exceed this width */
-    margin: 0 auto; /* Center the charts */
-}
+// JavaScript to handle active nav button
+document.addEventListener('DOMContentLoaded', (event) => {
+    const navButtons = document.querySelectorAll('#navButtons .nav-button');
 
-/* Product List Section */
-#productListSection {
-    padding: 30px 20px; /* Increase padding at the top for more space */
-    background-color: var(--bg-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    margin-top: 50px;
-    box-shadow: var(--box-color);
-    position: relative;
-}
+    // Retrieve the active nav button from localStorage
+    const activeNavId = localStorage.getItem('activeNavId');
+    if (activeNavId) {
+        const activeNav = document.getElementById(activeNavId);
+        if (activeNav) {
+            activeNav.classList.add('active');
+        }
+    }
 
-/* Title */
-#productListSection h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--primary-color); /* Pink color for heading */
-    text-align: center;
-}
+    navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove 'active' class from all buttons
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            // Add 'active' class to the clicked button
+            this.classList.add('active');
 
-
-/* Filters Section aligned to the upper-right corner */
-#productListSection .filters {
-    display: flex;
-    gap: 0px; /* Space between each filter */
-    position: absolute; /* Absolute positioning */
-    top: 20px; /* Adjusted to align below the title */
-    right: 20px; /* Distance from the right */
-    align-items: center; /* Align items horizontally */
-}
-
-/* Input and Select Fields in Filters */
-#productListSection input,
-#productListSection select {
-    padding: 7px;
-    font-size: 1rem;
-    border-radius: 10px;
-    border: 4px solid #ddd;
-    width: 300px; /* Set a fixed width for the filter fields */
-    background-color: var(--bg-color); /* White background for input fields */
-    color: var(--text-color);
-}
-
-
-/* Product Table Container */
-#productListSection .table-container {
-    display: flex;
-    justify-content: center; /* Center the table horizontally */
-    margin-top: 20px; /* Space between filters and the table */
-    width: 100%; /* Ensure the container takes up the full width */
-}
-
-/* Product Table */
-#productListSection table {
-    width: 80%; /* Table takes 80% of the width */
-    border-collapse: collapse;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-/* Table Headers and Cells */
-table th,
-table td {
-    padding: 10px;
-    text-align: center;
-    border: 5px solid #ddd;
-    font-size: 1rem;
-    color: var(--text-color);
-}
-
-table th {
-    background-color: var(--primary-color); /* Pink Table Header */
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-table td {
-    background-color: var(--bg-color);
-    transition: background-color 0.3s ease;
-}
-
-/* Hover effect for table rows */
-table tr:hover td {
-    background-color: var(--table-hover-bg);
-}
-
-/* Image Styling in Table */
-table img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 3px;
-}
-
-/* Product Actions Buttons */
-button.edit-btn,
-button.delete-btn {
-    padding: 5px 15px;
-    margin: 5px;
-    border: none;
-    background-color: var(--primary-color); /* Pink button */
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-button.edit-btn:hover,
-button.delete-btn:hover {
-    background-color: #000000; /* Darker pink */
-}
-
-button.delete-btn {
-    background-color: var(--secondary-color); /* Red color for delete button */
-}
-
-button.delete-btn:hover {
-    background-color: #000000; /* Darker red */
-}
-
-
-/* Add Product Section */
-#addProductSection {
-    padding: 30px 20px;
-    background-color: var(--bg-color);
-    margin-top: 50px;
-    box-shadow: var(--box-color);
-}
-
-#addProductSection h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--primary-color); /* Pink color for heading */
-    text-align: center;
-}
-
-#add-product-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#add-product-form input,
-#add-product-form select {
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 1rem;
-    width: 700px;  /* Increased width to make input bar wider */
-    border-radius: 5px;
-    border: 4px solid #ddd;
-    background-color: var(--bg-color); /* White background for input fields */
-    color: var(--text-color);
-}
-
-#add-product-form button {
-    padding: 12px 20px;
-    margin-top: 15px;
-    background-color: var(--primary-color); /* Pink background for button */
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    width: 700px; /* Same width as the input fields */
-}
-
-#add-product-form button:hover {
-    background-color: #000000; /* Darker pink on hover */
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: var(--footer-bg); /* Pink footer */
-    color: rgb(255, 255, 255);
-    margin-top: 50px;
-}
-
-footer p {
-    font-size: 1rem;
-}
-
-/* Login Page */
-#login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: var(--bg-color);/* White background for login */
-}
-
-.login-container {
-    text-align: center; /* Center logo, title, and form */
-}
-
-.logo img {
-    width: 150px; /* Adjust width to your preferred size */
-    height: 150px; /* Ensure it's a square */
-    border-radius: 50%; /* Makes the image circular */
-    object-fit: cover; /* Ensures the image fits within the circle */
-    margin-bottom: 10px;
-    border: 3px solid var(--primary-color);/* Optional: Add a border to match the theme */
-}
-
-.header h1 {
-    font-size: 1.5rem;
-    color: var(--primary-color); /* Pink color */
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.login-form {
-    background-color: var(--bg-color);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: var(--box-color);
-    width: 300px;
-    margin: 0 auto;
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-button[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--primary-color);/* Pink button */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button[type="submit"]:hover {
-    background-color: #8d1942; /* Darker pink on hover */
-}
-
-/* Theme Toggle Button with Icon */
-#themeToggle {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-    margin-top: 1px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem; /* Adjust the font size for the icon */
-    transition: background-color 0.3s ease;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-#themeToggle:hover {
-    background-color: #8d1942;
-}
-
-/* Dark Theme Icon Styles */
-body.dark-theme #themeToggle::before {
-    content: "\f186"; /* Unicode for Font Awesome moon icon */
-    font-family: "Font Awesome 5 Free"; 
-    font-weight: 900;
-}
-
-/* Light Theme Icon Styles */
-#themeToggle::before {
-    content: "\f185"; /* Unicode for Font Awesome sun icon */
-    font-family: "Font Awesome 5 Free"; 
-    font-weight: 900;
-}
+            // Store the active button's ID in localStorage
+            localStorage.setItem('activeNavId', this.id);
+        });
+    });
+});
