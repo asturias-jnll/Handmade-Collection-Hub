@@ -36,8 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = body.classList.contains('dark-theme') ? 'dark-theme' : '';
         localStorage.setItem('theme', currentTheme);
     });
-});
 
+    // Initialize the dashboard 
+    if (document.getElementById("dashboardSection")) { 
+        fetchProducts(); 
+        renderDashboard(); 
+        renderCharts(); 
+    } 
+    if (document.getElementById("productListSection")) { 
+        fetchProducts(); 
+        applyFilters(); // Initialize filteredProducts and render the list 
+        } 
+});
 
 // Utility to save and retrieve products
 function saveProducts() {
@@ -83,6 +93,28 @@ function renderProductList() {
     });
 }
 
+function renderCharts() { 
+    // Product Category Distribution Chart 
+    const categoryCounts = {}; 
+    products.forEach(product => { 
+        categoryCounts[product.category] = (categoryCounts[product.category] || 0) + 1; 
+    }); 
+    const categoryLabels = Object.keys(categoryCounts); 
+    const categoryData = Object.values(categoryCounts); 
+    
+    const productCategoryCtx = document.getElementById('productCategoryChart').getContext('2d'); 
+    new Chart(productCategoryCtx, { 
+        type: 'pie', 
+        data: { 
+            labels: categoryLabels, 
+            datasets: [{ 
+                data: categoryData, 
+                backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0'], 
+                hoverOffset: 4 
+            }] 
+        } 
+    });  
+}
 
 // CRUD Operations
 function addProduct(event) {
