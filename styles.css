@@ -59,7 +59,7 @@ body {
     margin: 0;
 }
 
-/* Style for the title link */
+/* Title link */
 #title-link {
     text-decoration: none;
     color: var(--header-text);
@@ -90,11 +90,11 @@ body {
     border-radius: 5px; 
     transition: background-color 0.3s; 
 } 
-/* Hover effect */ 
+
 #navButtons a:hover { 
     background-color: var(--primary-color); 
 } 
-/* Active nav button */ 
+
 #navButtons a.active { 
     background-color: var(--primary-color); 
 }
@@ -148,7 +148,6 @@ body {
     object-fit: cover;
 }
 
-/* Animation for automatic sliding with 9 pictures */
 @keyframes slide {
     0% {
         transform: translateX(0);
@@ -182,7 +181,6 @@ body {
     }
 }
 
-/* Apply the animation to the slider track */
 .slider-track {
     animation: slide 27s infinite;
 }
@@ -190,14 +188,14 @@ body {
 /* Dashboard Section */
 #dashboardSection {
     padding: 40px 20px;
-    display: flex; /* Use flexbox for side-by-side alignment */
-    justify-content: space-between; /* Push items to edges */
-    align-items: center; /* Align items vertically */
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     background-color: var(--bg-color);
     box-shadow: var(--box-color);
     margin-top: 50px;
-    text-align: left; /* Ensure text aligns to the left in the info section */
+    text-align: left;
 }
 
 #dashboardSection h2 {
@@ -216,12 +214,11 @@ body {
     margin: 20px 0;
 }
 
-/* Chart Canvas Section */
 .chart-canvas {
     width: 80% !important;
     height: 400px !important;
     max-width: 400px;
-    margin-left: auto; /* Push the chart to the right */
+    margin-left: auto;
     margin-right: 300px;
 }
 
@@ -237,7 +234,6 @@ body {
     position: relative;
 }
 
-/* Title */
 #productListSection h2 {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -252,7 +248,7 @@ body {
     margin-bottom: 1px;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center; /* Align items horizontally */
+    align-items: center;
 }
 
 #productListSection .filters input,
@@ -299,7 +295,6 @@ body {
     overflow: hidden;
 }
 
-/* Table Headers and Cells */
 table th,
 table td {
     padding: 10px;
@@ -321,12 +316,10 @@ table td {
     transition: background-color 0.3s ease;
 }
 
-/* Hover effect for table rows */
 table tr:hover td {
     background-color: var(--table-hover-bg);
 }
 
-/* Image Styling in Table */
 table img {
     width: 100px;
     height: 100px;
@@ -363,43 +356,31 @@ button.delete-btn:hover {
 
 /* Modal Styles */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 60px;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
     background-color: var(--bg-color);
-    margin: 6% auto; /* 5% from the top and centered */
+    margin: 6% auto;
     padding: 20px 15px;
     border: 1px solid #888;
-    width: 500px; /* Could be more or less, depending on screen size */
+    width: 500px;
     border-radius: 10px;
     position: relative;
     box-shadow: var(--box-color);
 }
 
-.close-button {
-    color: var(--text-color);
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
+/* Removed .close-button since it's no longer used */
 
-.close-button:hover,
-.close-button:focus {
-    color: var(--primary-color);
-    text-decoration: none;
-    cursor: pointer;
-}
-
+/* Product Form Inputs */
 #product-form {
     display: flex;
     flex-direction: column;
@@ -416,21 +397,88 @@ button.delete-btn:hover {
     color: var(--text-color);
 }
 
-#product-form button {
-    padding: 12px 20px;
-    margin-top: 15px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+/* Image Preview Container */
+#image-preview-container {
+    position: relative; /* To position the remove-image-icon absolutely */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Remove Image Icon */
+.remove-image-icon {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 25px;
     font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#product-form button:hover {
+.remove-image-icon:hover {
+    background-color: var(--primary-color);
+}
+
+/* Modal Buttons Container */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Distinct Styles for Cancel and Add Buttons */
+.cancel-button {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
     background-color: #000000;
 }
+
+.add-button {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #000000;
+}
+
+/* Removed #remove-image-button styling since it's no longer used */
 
 /* Footer */
 footer {
@@ -533,14 +581,14 @@ button[type="submit"]:hover {
 /* Dark Theme Icon Styles */
 body.dark-theme #themeToggle::before {
     content: "\f186";
-    font-family: "Font Awesome 5 Free"; 
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
 
 /* Light Theme Icon Styles */
 #themeToggle::before {
     content: "\f185";
-    font-family: "Font Awesome 5 Free"; 
+    font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
 
