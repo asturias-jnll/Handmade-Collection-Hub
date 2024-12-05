@@ -2,6 +2,25 @@ const storageKey = "products";
 let products = [];
 let filteredProducts = [];
 
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const themeToggleBtn = document.getElementById('themeToggle');
+
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        body.classList.add(savedTheme);
+    }
+
+    // Toggle theme and icon
+    themeToggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+        const currentTheme = body.classList.contains('dark-theme') ? 'dark-theme' : '';
+        localStorage.setItem('theme', currentTheme);
+    });
+});
+
+
 // Utility to save and retrieve products
 function saveProducts() {
     localStorage.setItem(storageKey, JSON.stringify(products));
