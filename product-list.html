@@ -16,7 +16,7 @@
             <a href="home.html" class="nav-button" id="home-link">Home</a>
             <a href="dashboard.html" class="nav-button" id="dashboard-link">Dashboard</a>
             <a href="product-list.html" class="nav-button" id="product-list-link">Product List</a>
-            <a href="add-product.html" class="nav-button" id="add-product-link">Add Product</a>
+            <!-- Removed Add Product link since it's now integrated -->
             <a href="login.html" class="nav-button" id="logout-link">Logout</a>
         </div>
         <button id="themeToggle" aria-label="Toggle Theme"></button>
@@ -25,7 +25,7 @@
     <!-- Product List Section -->
     <section id="productListSection">
         <h2>Product List</h2>
-        <div>
+        <div class="filters">
             <input id="search-bar" type="text" placeholder="Search by name...">
             <select id="filter-category">
                 <option value="all">All Categories</option>
@@ -38,22 +38,47 @@
                 <option value="low-to-high">Lowest to Highest</option>
                 <option value="high-to-low">Highest to Lowest</option>
             </select>
-        </div>        
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="product-list-body"></tbody>
-        </table>
-        
+            <!-- Add Product Button -->
+            <button id="open-add-modal" class="add-product-btn">Add Product</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="product-list-body"></tbody>
+            </table>
+        </div>
     </section>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close-button">&times;</span>
+            <h2 id="modal-title">Add New Product</h2>
+            <form id="product-form">
+                <input id="modal-product-name" type="text" placeholder="Product Name" required>
+                <select id="modal-product-category" required>
+                    <option value="" disabled selected>Category</option> 
+                    <option value="baby">Baby Scrunchie</option>
+                    <option value="regular">Regular Scrunchie</option>
+                    <option value="giant">Giant Scrunchie</option>
+                </select>
+                <input id="modal-product-price" type="number" placeholder="Price" required>
+                <input id="modal-product-stock" type="number" placeholder="Stock" required>
+                <input id="modal-product-image" type="file" accept="image/*">
+                <button type="submit" id="modal-submit-button">Add Product</button>
+            </form>
+        </div>
+    </div>
+
     <script src="crud.js"></script>
     
 </body>
