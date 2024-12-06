@@ -12,6 +12,9 @@
 
     <!-- Header with Navigation -->
     <div id="header">
+        <a href="home.html" id="logo-link">
+            <img src="logo.jpg" alt="Handmade Collection Hub Logo" id="logo">
+        </a>
         <h1><a href="home.html" id="title-link">Handmade Collection Hub</a></h1>
         <div id="navButtons">
             <a href="home.html" class="nav-button" id="home-link">Home</a>
@@ -21,19 +24,27 @@
         </div>
         <button id="themeToggle" aria-label="Toggle Theme"></button>
     </div>
+    
 
     <!-- Dashboard Section -->
     <section id="dashboardSection">
-        <h2>Inventory Dashboard</h2>
-        <ul>
-            <li id="total-products">Total Products: 0</li>
-            <li id="low-stock">Low Stock: 0</li>
-            <li id="categories">Categories: 0</li>
-        </ul>
-        <!-- Canvas elements for charts --> 
-        <canvas id="productCategoryChart" class="chart-canvas"></canvas>
-        <canvas id="lowStockChart" class="chart-canvas"></canvas>
+        <!-- Content Box for Title and List -->
+        <div id="contentBox">
+            <h2>Inventory Dashboard</h2>
+            <ul>
+                <li id="total-products">Total Products: 0</li>
+                <li id="low-stock">Low Stock: 0</li>
+                <li id="categories">Categories: 0</li>
+            </ul>
+        </div>
+    
+        <!-- Canvas elements for charts -->
+        <div id="chartsContainer">
+            <canvas id="productCategoryChart" class="chart-canvas"></canvas>
+            <canvas id="lowStockChart" class="chart-canvas"></canvas>
+        </div>
     </section>
+    
     <script src="crud.js"></script>
     
 </body>

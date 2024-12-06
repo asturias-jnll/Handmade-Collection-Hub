@@ -13,9 +13,9 @@
     --header-text: #b12252;
     --primary-color: #b12252;
     --secondary-color: #ff81ab;
-    --button-hover-bg: #8d1942;
+    --button-hover-bg: #5e0724;
     --footer-bg: #b12252;
-    --table-hover-bg: #ddd;
+    --table-hover-bg: #cfcece;
     --box-color: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -29,7 +29,7 @@ body.dark-theme {
     --secondary-color: #b12252;
     --button-hover-bg: #ff3366;
     --footer-bg: #222;
-    --table-hover-bg: #555;
+    --table-hover-bg: #292828;
     --box-color: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
@@ -47,16 +47,52 @@ body {
     align-items: center;
     background-color: var(--header-bg);
     color: var(--header-text);
-    padding: 20px;
+    padding: 13px;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
+/* Header with title and navigation */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 13px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Title */
 #header h1 {
     font-size: 2rem;
     letter-spacing: 1px;
     margin: 0;
+    white-space: nowrap; /* Prevent title from wrapping */
+    flex-grow: 1; /* Allow title to take up remaining space */
+    overflow: hidden; /* Hide any overflow */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+    max-width: 75%; /* Adjust width to fit, leave space for logo and nav */
+}
+
+/* Logo */
+#logo {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Ensure the height matches the width */
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image fits within the circle */
+    margin-right: 10px; /* Optional: space between logo and text */
+}
+
+/* Logo link */
+#logo-link {
+    display: flex;
+    align-items: center;
 }
 
 /* Title link */
@@ -73,11 +109,13 @@ body {
     text-decoration: none;
 }
 
+/* Navigation Buttons */
 #navButtons {
     display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-    width: 800px;
+    gap: 15px; /* Space between navigation items */
+    justify-content: flex-end; /* Align buttons to the right */
+    width: auto; /* Allow it to shrink and fit the space */
+    margin-right: 5px;
 }
 
 #navButtons a { 
@@ -89,15 +127,29 @@ body {
     padding: 10px; 
     border-radius: 5px; 
     transition: background-color 0.3s; 
-} 
+}
 
 #navButtons a:hover { 
     background-color: var(--primary-color); 
-} 
+}
 
 #navButtons a.active { 
     background-color: var(--primary-color); 
 }
+
+@media (max-width: 768px) {
+    #navButtons {
+        flex-direction: row; /* Stack buttons vertically */
+        align-items: flex-start; /* Align buttons to the left */
+        width: 100%;
+    }
+
+    #navButtons a {
+        margin-bottom: 0px; /* Add space between stacked items */
+    }
+}
+
+
 
 /* Home Section */
 #homeSection {
@@ -187,39 +239,63 @@ body {
 
 /* Dashboard Section */
 #dashboardSection {
-    padding: 40px 20px;
+    padding: 40px 20px 20px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center; /* Center the entire content */
+    align-items: flex-start; /* Align the items at the top */
     flex-wrap: wrap;
     background-color: var(--bg-color);
     box-shadow: var(--box-color);
     margin-top: 50px;
+    margin-bottom: 50px;
     text-align: left;
 }
 
-#dashboardSection h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+/* Content Box */
+#contentBox {
+    background-color: var(--box-color); /* Background color for the box */
+    padding: 20px;
+    border-radius: 10px; /* Optional: rounded corners for the box */
+    box-shadow: var(--box-color);
+    width: 100%; /* Make sure it uses the available width */
+    max-width: 300px; /* Limit the maximum width */
+    margin-top: 120px;
+    margin-right: 30px; /* Add space between the content and charts */
+}
+
+/* Title (h2) */
+#contentBox h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px; /* Reduced margin for better alignment */
     color: var(--text-color);
     font-weight: bold;
 }
 
-#dashboardSection ul {
+/* List */
+#contentBox ul {
     list-style: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
 }
 
-#dashboardSection li {
-    margin: 20px 0;
+/* List items */
+#contentBox li {
+    margin: 10px 0; /* Add space between items */
 }
 
+/* Charts Container */
+#chartsContainer {
+    display: flex;
+    flex-direction: column; /* Stack the charts vertically */
+    gap: 20px; /* Add space between the charts */
+}
+
+/* Chart */
 .chart-canvas {
-    width: 80% !important;
+    width: 100%; /* Ensure the chart fills the available space */
     height: 400px !important;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: 300px;
+    max-width: 400px; /* Set max width for the chart */
 }
 
 /* Product List Section */
@@ -276,7 +352,7 @@ body {
 }
 
 .add-product-btn:hover {
-    background-color: #000000;
+    background-color: var(--button-hover-bg);
 }
 
 /* Product Table Container */
@@ -299,7 +375,7 @@ table th,
 table td {
     padding: 10px;
     text-align: center;
-    border: 5px solid #ddd;
+    border: 5px solid var(--primary-color);
     font-size: 1rem;
     color: var(--text-color);
 }
@@ -343,7 +419,7 @@ button.delete-btn {
 
 button.edit-btn:hover,
 button.delete-btn:hover {
-    background-color: #000000;
+    background-color: var(--button-hover-bg);
 }
 
 button.delete-btn {
@@ -351,7 +427,7 @@ button.delete-btn {
 }
 
 button.delete-btn:hover {
-    background-color: #000000;
+    background-color: var(--button-hover-bg);
 }
 
 /* Modal Styles */
@@ -380,10 +456,16 @@ button.delete-btn:hover {
 
 /* Removed .close-button since it's no longer used */
 
+#modal-title {
+   font-size: 1.5rem; 
+   margin-left: 15px;
+   color: var(--primary-color); 
+}
 /* Product Form Inputs */
 #product-form {
     display: flex;
     flex-direction: column;
+    margin: 10px 10px;
 }
 
 #product-form input,
@@ -443,8 +525,10 @@ button.delete-btn:hover {
 /* Modal Buttons Container */
 .modal-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
+    gap: 10px;
+    margin-bottom: 1px;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 /* Distinct Styles for Cancel and Add Buttons */
@@ -457,10 +541,12 @@ button.delete-btn:hover {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    height: 40px;
+    margin-top: 10px;
 }
 
 .cancel-button:hover {
-    background-color: #000000;
+    background-color: var(--button-hover-bg);
 }
 
 .add-button {
@@ -472,11 +558,14 @@ button.delete-btn:hover {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    height: 40px;
+
 }
 
 .add-button:hover {
-    background-color: #000000;
+    background-color: var(--button-hover-bg);
 }
+
 
 /* Removed #remove-image-button styling since it's no longer used */
 
