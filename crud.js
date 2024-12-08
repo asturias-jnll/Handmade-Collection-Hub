@@ -238,56 +238,71 @@ function renderCharts() {
     }  
 }
 
-// Process Form Data for Add or Edit
-function processFormData(product) {
-    if (product.name && product.category && !isNaN(product.price) && !isNaN(product.stock)) {
-        if (isEditMode) {
-            products[editProductIndex] = { ...products[editProductIndex], ...product };
-            alert("Product updated successfully!");
-        } else {
-            products.push(product);
-            alert("Product added successfully!");
-        }
+// Prevent negative numbers in price and stock inputs 
+function preventNegativeNumber(event) { 
+    if (event.target.value < 0) { 
+        event.target.value = 0; 
+    } 
+} 
+// Attach event listeners to prevent negative numbers 
+document.getElementById('modal-product-price')?.addEventListener('input', preventNegativeNumber); 
+document.getElementById('modal-product-stock')?.addEventListener('input', preventNegativeNumber); 
 
-        saveProducts();
-        fetchProducts();
-        applyFilters();
-        modal.style.display = 'none';
-    } else {
-        alert("Please fill all fields correctly!");
-    }
-}
+// Process Form Data for Add or Edit 
+function processFormData(product) { 
+    if (product.name && product.category && !isNaN(product.price) && !isNaN(product.stock)) { 
+        if (product.price < 0 || product.stock < 0) { 
+            alert("Price and stock cannot be negative."); 
+            return; 
+        } 
+        
+        if (isEditMode) { 
+            products[editProductIndex] = { ...products[editProductIndex], ...product }; 
+            alert("Product updated successfully!"); 
+        } else { 
+            products.push(product); 
+            alert("Product added successfully!"); 
+        } 
+        
+        saveProducts(); 
+        fetchProducts(); 
+        applyFilters(); 
+        modal.style.display = 'none'; 
+    } else { 
+        alert("Please fill all fields correctly!"); 
+    } 
+} 
 
-// Edit Product Function
-function editProduct(index) {
-    isEditMode = true;
-    const product = filteredProducts[index];
+// Edit Product Function 
+function editProduct(index) { 
+    isEditMode = true; 
+    const product = filteredProducts[index]; 
     const actualIndex = products.findIndex(p => 
         p.name === product.name && 
         p.category === product.category && 
         p.price === product.price && 
-        p.stock === product.stock
-    );
-    editProductIndex = actualIndex; // Store the actual index in the products array
+        p.stock === product.stock 
+    ); 
+    editProductIndex = actualIndex; // Store the actual index in the products array 
+    
+    modalTitle.innerText = 'Edit Product'; 
+    modalSubmitButton.innerText = 'Update Product'; 
 
-    modalTitle.innerText = 'Edit Product';
-    modalSubmitButton.innerText = 'Update Product';
-
-    document.getElementById("modal-product-name").value = product.name;
-    document.getElementById("modal-product-category").value = product.category;
-    document.getElementById("modal-product-price").value = product.price;
-    document.getElementById("modal-product-stock").value = product.stock;
-
-    if (product.image) {
-        imagePreview.src = product.image;
-        imagePreview.style.display = "block";
-        removeImageIcon.style.display = "block";
-    } else {
-        imagePreview.style.display = "none";
-        removeImageIcon.style.display = "none";
-    }
-
-    modal.style.display = 'block';
+    document.getElementById("modal-product-name").value = product.name; 
+    document.getElementById("modal-product-category").value = product.category; 
+    document.getElementById("modal-product-price").value = product.price; 
+    document.getElementById("modal-product-stock").value = product.stock; 
+    
+    if (product.image) { 
+        imagePreview.src = product.image; 
+        imagePreview.style.display = "block"; 
+        removeImageIcon.style.display = "block"; 
+    } else { 
+        imagePreview.style.display = "none"; 
+        removeImageIcon.style.display = "none"; 
+    } 
+    
+    modal.style.display = 'block'; 
 }
 
 // Delete Product Function
