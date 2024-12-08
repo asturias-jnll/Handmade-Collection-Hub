@@ -19,7 +19,7 @@ const imagePreview = document.getElementById("image-preview");
 // Filter Elements
 const searchBar = document.getElementById("search-bar");
 const filterCategory = document.getElementById("filter-category");
-const filterPrice = document.getElementById("filter-price");
+const filterStock = document.getElementById("filter-stock");
 
 document.addEventListener('DOMContentLoaded', () => {
     // Handle login form submission
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Attach event listeners for filters
         searchBar?.addEventListener("input", applyFilters);
         filterCategory?.addEventListener("change", applyFilters);
-        filterPrice?.addEventListener("change", applyFilters);
+        filterStock?.addEventListener("change", applyFilters);
     }
 
     // Open Add Product Modal
@@ -185,11 +185,11 @@ function fetchProducts() {
 // Render functions
 function renderDashboard() {
     const totalProducts = products.length;
-    const lowStockCount = products.filter(product => product.stock <= 5).length;
+    const totalStock = products.reduce((sum, product) => sum + product.stock, 0);
     const categories = [...new Set(products.map(product => product.category))].length;
 
     document.getElementById("total-products").innerText = `Total Products: ${totalProducts}`;
-    document.getElementById("low-stock").innerText = `Low Stock: ${lowStockCount}`;
+    document.getElementById("total-stock").innerText = `Total Stock: ${totalStock}`;
     document.getElementById("categories").innerText = `Categories: ${categories}`;
 }
 
@@ -325,10 +325,11 @@ function deleteProduct(index) {
 }
 
 // Filter and Search
+// Apply filters and sorting logic
 function applyFilters() {
     const searchQuery = searchBar?.value.toLowerCase() || "";
     const categoryFilterValue = filterCategory?.value || "all";
-    const priceFilterValue = filterPrice?.value || "none";
+    const stockFilterValue = filterStock?.value || "none";
 
     filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchQuery);
@@ -336,11 +337,98 @@ function applyFilters() {
         return matchesSearch && matchesCategory;
     });
 
-    if (priceFilterValue === "low-to-high") {
-        filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (priceFilterValue === "high-to-low") {
-        filteredProducts.sort((a, b) => b.price - a.price);
+    if (stockFilterValue === "low-to-high") {
+        filteredProducts.sort((a, b) => a.stock - b.stock);
+    } else if (stockFilterValue === "high-to-low") {
+        filteredProducts.sort((a, b) => b.stock - a.stock);
     }
 
     renderProductList();
 }
+
+// Show Edit Profile Form with Current Details
+function showEditProfileForm() {
+    const profileModal = document.getElementById('profile-modal');
+
+    // Populate form fields with current profile details
+    document.getElementById('edit-name').value = document.getElementById('profile-name').textContent.replace("Name: ", "");
+    document.getElementById('edit-age').value = document.getElementById('profile-age').textContent.replace("Age: ", "");
+    document.getElementById('edit-address').value = document.getElementById('profile-address').textContent.replace("Address: ", "");
+    document.getElementById('edit-facebook').value = document.getElementById('profile-facebook').href;
+    document.getElementById('edit-twitter').value = document.getElementById('profile-twitter').href;
+    document.getElementById('edit-instagram').value = document.getElementById('profile-instagram').href;
+
+    // Show current profile picture in preview
+    const profilePicSrc = document.getElementById('profile-pic').src;
+    const imagePreview = document.getElementById('image-preview');
+    imagePreview.src = profilePicSrc;
+    imagePreview.style.display = "block";
+    removeImageIcon.style.display = "block";
+
+    profileModal.style.display = 'block';
+}
+
+// Handle Save Changes for Profile
+document.getElementById('edit-profile-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Get updated profile details
+    const updatedName = document.getElementById('edit-name').value;
+    const updatedAge = document.getElementById('edit-age').value;
+    const updatedAddress = document.getElementById('edit-address').value;
+    const updatedFacebook = document.getElementById('edit-facebook').value;
+    const updatedTwitter = document.getElementById('edit-twitter').value;
+    const updatedInstagram = document.getElementById('edit-instagram').value;
+    const updatedPhotoFile = document.getElementById('edit-photo').files[0];
+
+    // Update profile details on the page
+    document.getElementById('profile-name').textContent = `Name: ${updatedName}`;
+    document.getElementById('profile-age').textContent = `Age: ${updatedAge}`;
+    document.getElementById('profile-address').textContent = `Address: ${updatedAddress}`;
+    document.getElementById('profile-facebook').href = updatedFacebook;
+    document.getElementById('profile-twitter').href = updatedTwitter;
+    document.getElementById('profile-instagram').href = updatedInstagram;
+
+    // Update profile photo if a new one is selected
+    if (updatedPhotoFile) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const newPhotoSrc = e.target.result;
+            document.getElementById('profile-pic').src = newPhotoSrc;
+            imagePreview.src = newPhotoSrc;
+        };
+        reader.readAsDataURL(updatedPhotoFile);
+    }
+
+    // Close the modal
+    document.getElementById('profile-modal').style.display = 'none';
+});
+
+// Handle Image Preview Update
+document.getElementById("edit-photo").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imagePreview = document.getElementById("image-preview");
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = "block";
+            removeImageIcon.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Cancel button within the profile modal
+document.getElementById('modal-cancel-button')?.addEventListener('click', () => {
+    const profileModal = document.getElementById('profile-modal');
+    profileModal.style.display = 'none';
+});
+
+// Close modal when clicking outside the content
+window.addEventListener('click', (event) => {
+    const profileModal = document.getElementById('profile-modal');
+    if (event.target == profileModal) {
+        profileModal.style.display = 'none';
+    }
+});
